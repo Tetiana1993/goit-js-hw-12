@@ -107,3 +107,8 @@ button:hover {
       transform: rotate(360deg);
     }
   }
+
+  .hidden {
+    display: none;
+    opacity: 0;
+  }
