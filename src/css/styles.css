@@ -24,6 +24,12 @@
   -webkit-text-size-adjust: 100%;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 input {
   outline: none;
   border-radius: 4px;
@@ -111,4 +117,20 @@ button:hover {
   .hidden {
     display: none;
     opacity: 0;
+  }
+
+  .btn {
+    cursor: pointer;
+    border: none;
+    width: 120px;
+    height: 40px;
+    border-radius: 8px;
+    background-color: #4e75ff;
+    color: #fff;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.04em;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
   }

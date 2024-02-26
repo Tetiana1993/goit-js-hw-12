@@ -1,20 +1,8 @@
-import { searchImg } from './js/pixabay-api';gallery
-import { checkUp, noMatch } from './js/render-functions';
-import { imgRender } from './js/render-functions';
-import { gallery } from './js/render-functions';
-import { errNotify } from './js/render-functions';
-import { infoNotify } from './js/render-functions';
-
-export const refs = {
-  formEl: document.querySelector('.form'),
-  inputEl: document.querySelector('input[name="text"]'),
-  listEl: document.querySelector('.gallery'),
-  spanEl: document.querySelector('.loader'),
-  loadMoreBtn: document.querySelector('.more')
-};
+import { searchImg } from './js/pixabay-api';
+import { checkUp, noMatch, imgRender, errNotify, infoNotify, refs } from './js/render-functions';
 
 refs.formEl.addEventListener('submit', onFormSubmit);
-refs.loadMoreBtn.addEventListener('click', onLoadBtnClick);
+refs.loadBtn.addEventListener('click', onLoadBtnClick);
 
 let page;
 let resultPages;
@@ -30,7 +18,7 @@ async function onFormSubmit(e) {
     return;
   }
 
-  refs.spanEl.classList.remove('hidden');
+  refs.loader.classList.remove('hidden');
 
   try {
     const data = await searchImg(search, page);
@@ -39,42 +27,42 @@ async function onFormSubmit(e) {
       noMatch();
     }
     resultPages = Math.ceil(data.totalHits / 15);
-    refs.listEl.innerHTML = '';
+    refs.galleryForm.innerHTML = '';
 
     imgRender(data);
-    gallery.on('show.simplelightbox');
+    gallery.show();
     gallery.refresh();
   } catch (err) {
-    errNotify(err);
+    // errNotify(err);
   }
-  refs.spanEl.classList.add('hidden');
+  refs.loader.classList.add('hidden');
   checkBtnVisibleStatus();
   e.target.reset();
 }
 
 async function onLoadBtnClick() {
   page += 1;
-  refs.spanEl.classList.remove('hidden');
+  refs.loader.classList.remove('hidden');
   const data = await searchImg(search, page);
   imgRender(data);
-  gallery.on('show.simplelightbox');
+  gallery.show();
   gallery.refresh();
-  refs.spanEl.classList.add('hidden');
+  refs.loader.classList.add('hidden');
   checkBtnVisibleStatus();
   const height =
-    refs.formEl.firstElementChild.getBoundingClientRect().height;
+    refs.galleryForm.firstElementChild.getBoundingClientRect().height;
 
-  scrollBy({
+  window.scrollBy({
     behavior: 'smooth',
     top: height * 2,
   });
 }
 
 function showLoadBtn() {
-  refs.loadMoreBtn.classList.remove('hidden');
+  refs.loadBtn.classList.remove('hidden');
 }
 function hideLoadBtn() {
-  refs.loadMoreBtn.classList.add('hidden');
+  refs.loadBtn.classList.add('hidden');
 }
 
 function checkBtnVisibleStatus() {
